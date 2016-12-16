@@ -8,12 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import entity.DBManager;
-import entity.Journy;
 import entity.JournyAdapter;
-import thanhcong.com.nhatkydulich.DiaryActivity;
 import thanhcong.com.nhatkydulich.R;
 
 /**
@@ -34,7 +30,7 @@ public class JournyFragment extends Fragment {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_journy,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_my_journy,container,false);
         recyclerViewJourny = (RecyclerView)rootView.findViewById(R.id.recycler_view_journy);
         journyAdapter = new JournyAdapter(getContext(),dbManager);
 
