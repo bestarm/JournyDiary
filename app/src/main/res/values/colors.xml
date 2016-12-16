@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009688</color>
+    <color name="colorPrimaryDark">#00796B</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="tab_text_color">#80cbc4</color>
+    <color name="tab_selected_text_color">#ffffff</color>
+    <color name="item_journy_color_background_text_time">#aaffffff</color>
+    <color name="color_item_journy_name">#004D40</color>
+    <color name="color_white">#ffffff</color>
+    <color name="colorPrimaryTransparent">#88CCFF90</color>
+    <color name="colorPrimaryDarkTransparent">#8833691E</color>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:id="@+id/frame_layout_activity_diary"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/fragment_diary_layout_title"
+        android:layout_width="200dp"
+        android:layout_height="50dp">
+        <ImageButton
+            android:id="@+id/ibtn_activity_diary_previous_page"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_fragment_diary_previous_page"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <ImageButton
+            android:id="@+id/ibtn_activity_diary_next_page"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_fragment_diary_next_page"
+            android:layout_width="35dp"
+            android:layout_height="35dp" />
+        <TextView
+            android:background="@drawable/shape_background_item_journy_name"
+            android:text="asd"
+            android:layout_toRightOf="@id/ibtn_activity_diary_previous_page"
+            android:layout_toLeftOf="@id/ibtn_activity_diary_next_page"
+            android:layout_centerVertical="true"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:fontFamily="casual"
+            android:id="@+id/txt_activity_diary_name_journy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager_activity_diary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_activity_diary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/plus"
+        app:fabSize="normal"
+        app:layout_anchor="@id/view_pager_activity_diary"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

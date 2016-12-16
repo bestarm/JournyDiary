@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/activity_add_diary"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:layout_height="match_parent">
+    <EditText
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/shape_background_edt_activity_add_journy"
+        android:id="@+id/edt_activity_add_diary_place"
+        android:layout_width="match_parent"
+        android:textSize="25sp"
+        android:hint="Địa điểm..."
+        android:textStyle="italic"
+        android:layout_height="40dp" />
+    <EditText
+        android:background="@drawable/shape_background_edt_activity_add_journy"
+        android:id="@+id/edt_activity_add_diary_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top|left"
+        android:inputType="textMultiLine"
+        android:lines="20"
+        android:minLines="8"
+        android:scrollHorizontally="false"
+        android:scrollbars="vertical"
+        android:singleLine="false" />
+    <RelativeLayout
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_width="80dp"
+            android:src="@drawable/img_activity_add_journy_temp_cover"
+            android:scaleType="centerInside"
+            android:id="@+id/ibtn_activity_add_image"
+            android:layout_height="80dp" />
+        <ImageButton
+            android:layout_centerHorizontal="true"
+            android:layout_width="80dp"
+            android:src="@drawable/ic_activity_add_diary_add_video"
+            android:scaleType="centerInside"
+            android:id="@+id/ibtn_activity_add_video"
+            android:layout_height="80dp" />
+        <ImageButton
+            android:layout_alignParentRight="true"
+            android:layout_width="80dp"
+            android:src="@drawable/ic_activity_add_diary_add_mp3"
+            android:scaleType="centerInside"
+            android:id="@+id/ibtn_activity_add_mp3"
+            android:layout_height="80dp" />
+    </RelativeLayout>
+    <Button
+        android:layout_marginTop="50dp"
+        android:textSize="25sp"
+        android:text="Tạo"
+        android:id="@+id/btn_activity_add_diary"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+</LinearLayout>
