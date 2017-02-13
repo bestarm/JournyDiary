@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import thanhcong.com.nhatkydulich.DiaryActivity;
+import fragment.MyJournyFragment;
 import thanhcong.com.nhatkydulich.R;
 
 /**
@@ -25,11 +25,13 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
     private List<Journy> journyList;
     private Context mContext;
     private DBManager dbManager;
+    private MyJournyFragment myJournyFragment;
 
-    public JournyAdapter(Context mContext,DBManager dbManager){
-        this.dbManager = dbManager;
+    public JournyAdapter(Context mContext, MyJournyFragment myJournyFragment){
+        dbManager = DBManager.getInstance(mContext);
         this.journyList = dbManager.getListJourny();
         this.mContext = mContext;
+        this.myJournyFragment = myJournyFragment;
     }
 
     @Override
@@ -50,7 +52,6 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
         TextView txtNameItemJourny = holder.txtNameItemJourny;
         txtNameItemJourny.setText(journy.getNameJourny());
         ImageView ivCoverItemJourny = holder.ivCoverItemJourny;
-        ivCoverItemJourny.setClipToOutline(true);
         ivCoverItemJourny.setImageBitmap(BitmapFactory.decodeFile(journy.getCoverImage()));
     }
 
@@ -77,10 +78,7 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
         public void onClick(View v) {
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
-                Intent intent = new Intent();
-                intent.setClass(mContext, DiaryActivity.class);
-                intent.putExtra(KEY_INTENT_SEND_POSITION,position);
-                context.startActivity(intent);
+                myJournyFragment.showDetailFragment(position);
             }
         }
     }
@@ -90,5 +88,8 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
     public void notifyItemInsert(){
         notifyItemInserted(journyList.size() - 1);
         notifyDataSetChanged();
+    }
+    interface OnClick extends View.OnClickListener{
+
     }
 }

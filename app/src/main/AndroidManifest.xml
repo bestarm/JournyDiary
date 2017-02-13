@@ -17,8 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddJournyActivity"/>
-        <activity android:name=".DiaryActivity"/>
-        <activity android:name=".AddDiaryActivity"/>
+        <activity android:name="fragment.AddDiaryFragment"/>
     </application>
 </manifest>

@@ -1,6 +1,8 @@
 package fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,26 +15,22 @@ import entity.JournyAdapter;
 import thanhcong.com.nhatkydulich.R;
 
 /**
- * Created by ThanhCong on 29/11/2016.
+ * Created by ThanhCong on 17/12/2016.
  */
-public class JournyFragment extends Fragment {
+public class JournyListFragment extends Fragment {
     private RecyclerView recyclerViewJourny;
-    private DBManager dbManager;
     private JournyAdapter journyAdapter;
 
-    public JournyFragment(){
+    public JournyListFragment(Context context,MyJournyFragment myJournyFragment){
         super();
+        journyAdapter = new JournyAdapter(context,myJournyFragment);
     }
 
-    public JournyFragment(DBManager dbManager){
-        this.dbManager = dbManager;
-
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_journy,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_journy_list,container,false);
         recyclerViewJourny = (RecyclerView)rootView.findViewById(R.id.recycler_view_journy);
-        journyAdapter = new JournyAdapter(getContext(),dbManager);
+
 
         recyclerViewJourny.setAdapter(journyAdapter);
         recyclerViewJourny.setLayoutManager(new LinearLayoutManager(getContext()));

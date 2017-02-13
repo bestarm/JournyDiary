@@ -6,8 +6,6 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.File;

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +20,7 @@ import android.widget.TextView;
 import entity.DBManager;
 import entity.Journy;
 import fragment.AccountFragment;
-import fragment.JournyFragment;
+import fragment.MyJournyFragment;
 import fragment.NotificationFragment;
 import fragment.SearchFragment;
 
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int TAB_ACCOUNT = 3;
     private static final int REQUEST_CODE_ADD_JOURNY = 1;
 
-    private JournyFragment journyFragment;
+    private MyJournyFragment myJournyFragment;
     private NotificationFragment notificationFragment;
     private SearchFragment searchFragment;
     private AccountFragment accountFragment;
@@ -43,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView txtTitleToolbar;
-    private FloatingActionButton fab;
     private DBManager dbManager;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,AddJournyActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_ADD_JOURNY);
-            }
-        });
 
         viewPagerTab = (ViewPager)findViewById(R.id.view_pager);
         viewPagerTab.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -146,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         private void initFragments() {
-            journyFragment = new JournyFragment(dbManager);
+            myJournyFragment = new MyJournyFragment(fab);
             notificationFragment = new NotificationFragment();
             searchFragment = new SearchFragment();
             accountFragment = new AccountFragment();
@@ -163,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             Fragment fragment = null;
             switch (position){
-                case TAB_JOURNY : fragment = journyFragment;
+                case TAB_JOURNY : fragment = myJournyFragment;
                     break;
                 case TAB_NOTIFICATION : fragment = notificationFragment;
                     break;
@@ -183,23 +174,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     // Khi them moi hanh trinh xong, method nay se duoc goi
+
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_ADD_JOURNY && resultCode == RESULT_OK && data != null){
-            Journy journy = (Journy)data.getExtras().getSerializable(AddJournyActivity.KEY_SEND_BUNDLE_JOURNY);
-            String values[][] = new String[][]{
-                    {"PlaceJourny",journy.getPlaceJourny()},
-                    {"Name",journy.getNameJourny()},
-                    {"DistanceJourny",journy.getDistance()+""},
-                    {"UserID",journy.getUserID()+""},
-                    {"CoverImage",journy.getCoverImage()},
-                    {"TimeJourny",journy.getTimeJourny()}
-            };
-            boolean result = dbManager.insert("journy",values);
-            Snackbar.make(findViewById(R.id.main_activity),"Insert is"+(result == true?"done":"error"),Snackbar.LENGTH_LONG).show();
-            journyFragment.updateJournyList();
-            journyFragment.notifyItemInserted();
+    public void onBackPressed() {
+        if(viewPagerTab.getCurrentItem()==TAB_JOURNY){
+            int backStack = myJournyFragment.getChildFragmentManager().getBackStackEntryCount();
+            if(backStack > 0){
+                myJournyFragment.getChildFragmentManager().popBackStack();
+                fab.show();
+            }else{
+                super.onBackPressed();
+            }
+        }else {
+            super.onBackPressed();
         }
     }
 }
