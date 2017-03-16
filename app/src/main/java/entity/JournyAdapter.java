@@ -78,7 +78,7 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
         public void onClick(View v) {
             int position = getAdapterPosition();
             if(position != RecyclerView.NO_POSITION){
-                myJournyFragment.showDetailFragment(position);
+                myJournyFragment.showDiaryActivity(position);
             }
         }
     }
@@ -88,8 +88,5 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
     public void notifyItemInsert(){
         notifyItemInserted(journyList.size() - 1);
         notifyDataSetChanged();
-    }
-    interface OnClick extends View.OnClickListener{
-
     }
 }

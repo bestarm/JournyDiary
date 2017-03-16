@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/detail_journy_fragment"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ListView
-        android:id="@+id/lv_fragment_detail_journy_list_diary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-    </ListView>
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/lv_fragment_detail_journy_list_diary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </ListView>
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_fragment_detail_journy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="64dp"
+        android:src="@drawable/plus"
+        app:fabSize="normal"
+        app:layout_anchor="@id/lv_fragment_detail_journy_list_diary"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="thanhcong.com.nhatkydulich.ScrollAwareFABMainActivityBehavior"
+        />
+</android.support.design.widget.CoordinatorLayout>

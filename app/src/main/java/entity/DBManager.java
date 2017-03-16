@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,6 +25,7 @@ public class DBManager{
     private static final String PATH_DB = Environment.getDataDirectory().getPath()+"/data/thanhcong.com.nhatkydulich/databases";
     private static final String DB_NAME = "journydiarydb.db";
     private SQLiteDatabase mSQLiteDatabase;
+    private static final String GET_IMAGES_DIARY = "select Path from images where DiaryID = ";
     private static final String GET_LIST_JOURNY = "select * from journy";
     private static final String GET_LIST_DIARY = "select * from diary where JournyId = ";
     private int sizeJourny = 0;
@@ -74,13 +76,36 @@ public class DBManager{
         }
     }
 
-    public boolean insert(String tableName, String columnData[][]){
+    public boolean insert(String tableName, String columnData[]){
         openDB();
+        long result = -1;
         ContentValues values = new ContentValues();
-        for(int i = 0; i < columnData.length; i ++){
-            values.put(columnData[i][0],columnData[i][1]);
+
+        switch (tableName){
+            case "images":
+                int size = columnData.length;
+                for(int i = 0; i < size; i++){
+                    values.put("Path",columnData[i]);
+                    result = mSQLiteDatabase.insert(tableName,null,values);
+                }
+                break;
+            case "diary":
+                values.put("TimeDiary",columnData[0]);
+                values.put("PlaceDiary",columnData[1]);
+                values.put("Description",columnData[2]);
+                if(!columnData[3].equals("")){
+                    //values.put("Image","/storage/emulated/0/DCIM/100ANDRO/none_image.PNG");
+                    values.put("Image",columnData[3]);
+                }
+                values.put("Video",columnData[4]);
+                values.put("Mp3",columnData[5]);
+                values.put("JournyId",columnData[6]);
+                result = mSQLiteDatabase.insert(tableName,null,values);
+                break;
+            default:
+                break;
         }
-        long result = mSQLiteDatabase.insert(tableName,null,values);
+
         return result > -1;
     }
 
@@ -156,4 +181,51 @@ public class DBManager{
         }
         return diaryList;
     }
+
+    public int getJournyID(int position) {
+        int index = 0;
+        openDB();
+        Cursor cursor = mSQLiteDatabase.rawQuery(GET_LIST_JOURNY,null);
+        if(cursor != null){
+            int totalRow = cursor.getCount();
+            cursor.moveToFirst();
+            int journyIdIndex = cursor.getColumnIndex("JournyId");
+            while (!cursor.isAfterLast()){
+                if(totalRow - index -1 == position){
+                    return cursor.getInt(journyIdIndex);
+                }
+                index++;
+                cursor.moveToNext();
+            }
+        }
+        return 0;
+    }
+
+    public String[] getImagesOfDiary(int diaryID){
+        openDB();
+        Cursor cursor = mSQLiteDatabase.rawQuery(GET_IMAGES_DIARY+diaryID,null);
+        int count = cursor.getCount();
+        String arrImages[] = new String[count];
+        if(cursor != null){
+            cursor.moveToFirst();
+            int i = cursor.getPosition();
+            while (i < count){
+                arrImages[i] = cursor.getString(0);
+                i = cursor.getPosition();
+                cursor.moveToNext();
+            }
+        }
+        return arrImages;
+    }
+
+    public boolean update(String tableName, int diaryID,String[] values){
+        int result = -1;
+        openDB();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("PlaceDiary",values[0]);
+        contentValues.put("Description",values[1]);
+        result = mSQLiteDatabase.update(tableName,contentValues,"DiaryID ="+diaryID,null);
+                            return result > -1;
+    }
+
 }

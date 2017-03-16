@@ -17,6 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="fragment.AddDiaryFragment"/>
+        <activity android:name=".DiaryActivity"/>
+        <activity android:name=".CustomGalleryActivity"/>
     </application>
 </manifest>
