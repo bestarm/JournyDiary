@@ -1,5 +1,6 @@
 package fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -24,12 +25,15 @@ public class DetailJournyFragment extends android.app.Fragment {
     private DiaryAdapter diaryAdapter;
     private FloatingActionButton fab;
     private IDiaryActChangeFragmentListener listener;
+    private Context mContext;
+    private int position;
 
     public DetailJournyFragment(DiaryActivity context,int position){
         if(context instanceof IDiaryActChangeFragmentListener){
             this.listener = (IDiaryActChangeFragmentListener)context;
         }
-        diaryAdapter = new DiaryAdapter(context,position);
+        this.mContext = context;
+        this.position = position;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class DetailJournyFragment extends android.app.Fragment {
 //
 //            }
 //        });
+        diaryAdapter = new DiaryAdapter(mContext,position);
         diaryAdapter.notifyDataSetChanged();
         lvDetailJourny.setAdapter(diaryAdapter);
         fab = (FloatingActionButton)rootView.findViewById(R.id.fab_fragment_detail_journy);

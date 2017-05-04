@@ -78,6 +78,7 @@ public class AddDiaryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intentPickImage = new Intent();
+
                 intentPickImage.setClass(getActivity(), CustomGalleryActivity.class);
                 startActivityForResult(intentPickImage, REQUEST_CODE_LOAD_IMAGE);
             }
@@ -92,7 +93,7 @@ public class AddDiaryFragment extends Fragment {
                     timeDiary = dateFormat.format(new Date(System.currentTimeMillis()));
                     placeDiary = edtPlace.getText().toString();
                     description = edtDescription.getText().toString();
-                    if(image.length() > 0){
+                    if(arrayImages.length > 0){
                         image = arrayImages[0];
                     }else{
                         image = "";
@@ -124,8 +125,10 @@ public class AddDiaryFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // get intent data
         if (data != null) {
-            String imageArray = data.getStringExtra(CustomGalleryActivity.KEY_RETURN_SELECTED_IMAGES);// get intent data
+            String imageArray = data.getStringExtra(CustomGalleryActivity.KEY_RETURN_SELECTED_IMAGES);
             // convert string array into List by split by ',' and  substring after '[' and before ']'
             arrayImages = (imageArray.substring(1, imageArray.length() - 1)).split(", ");
 

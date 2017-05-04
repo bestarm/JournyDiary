@@ -29,10 +29,12 @@ public class GridViewGalleryAdapter extends BaseAdapter{
     private Button btnImgSelected;
     private Context context;
     private int selected = 0;
+    private boolean isPickImage,isFixBug = true;
 
-    public GridViewGalleryAdapter(Context context, ArrayList<String> galleryImageUrls){
+    public GridViewGalleryAdapter(Context context, ArrayList<String> galleryImageUrls, boolean isPickImage){
         this.context = context;
         this.galleryImageUrls = galleryImageUrls;
+        this.isPickImage = isPickImage;
         layoutInflater = LayoutInflater.from(context);
         sparseBooleanArray = new SparseBooleanArray();
         // button accepting number of picture selected
@@ -61,7 +63,7 @@ public class GridViewGalleryAdapter extends BaseAdapter{
             itemView = layoutInflater.inflate(R.layout.item_gridview,parent,false);
             viewHolder.imgGallery = (ImageView)itemView.findViewById(R.id.img_item_gridview_gallery);
             viewHolder.cbxImageSelect = (CheckBox)itemView.findViewById(R.id.cbx_item_gridview);
-            viewHolder.cbxImageSelect.setOnCheckedChangeListener(mCheckChangeListener);
+            viewHolder.cbxImageSelect.setOnClickListener(mOnClickListener);
         }else{
             viewHolder = (ViewHolder)itemView.getTag();
         }
@@ -73,24 +75,26 @@ public class GridViewGalleryAdapter extends BaseAdapter{
         return itemView;
     }
 
-    CompoundButton.OnCheckedChangeListener mCheckChangeListener = new CompoundButton.OnCheckedChangeListener(){
+    View.OnClickListener mOnClickListener = new View.OnClickListener(){
+
         @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            sparseBooleanArray.put((Integer)buttonView.getTag(),isChecked);
+        public void onClick(View v) {
+            boolean isChecked = ((CheckBox)v).isChecked();
+            sparseBooleanArray.put((Integer) v.getTag(),isChecked);
             if(isChecked){
                 selected++;
             }else{
                 selected--;
             }
-            btnImgSelected.setText("Select "+selected+" image");
+            btnImgSelected.setText("select "+ selected);
             if (selected >0){
                 btnImgSelected.setVisibility(View.VISIBLE);
             }else {
                 btnImgSelected.setVisibility(View.GONE);
             }
-//            ((CustomGalleryActivity)context).showSelectedBtn(selected);
         }
     };
+
 
     // method to return selected Images
     public ArrayList<String> getImageUrlsSelected(){

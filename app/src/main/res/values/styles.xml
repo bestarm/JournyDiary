@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="textLineBelow" parent="android:Widget.Holo.Light.TextView">
+        <item name="android:drawableBottom">@drawable/line_below_text_infor_account</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

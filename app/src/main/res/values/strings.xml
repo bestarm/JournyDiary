@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">NhatKyDuLich</string>
     <string name="action_menu_setting">Setting</string>
+    <string name="item_menu_diary_edit">Edit</string>
+    <string name="item_menu_diary_delete">Delete</string>
+    <string-array name="option_item_diary">
+        <item>...</item>
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
+    <string-array name="option_item_journy">
+        <item></item>
+        <item>Edit</item>
+        <item>Delete</item>
+    </string-array>
 </resources>

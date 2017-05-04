@@ -1,5 +1,6 @@
 package thanhcong.com.nhatkydulich;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,9 +38,17 @@ public class DiaryActivity extends AppCompatActivity implements IDiaryActChangeF
 
     @Override
     public void showDetailJournyFragment() {
+//        detailJournyFragment.getView().
         getFragmentManager().beginTransaction().replace(R.id.layout_main_diary,detailJournyFragment).commit();
     }
 
+    public void updateDetailJournyFragment(){
+        //update UI when remove diaryID
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.detach(detailJournyFragment);
+        transaction.attach(detailJournyFragment);
+        transaction.commit();
+    }
 
     @Override
     public void showAddDiaryFragment(boolean isEdit,int positionItemDiary){

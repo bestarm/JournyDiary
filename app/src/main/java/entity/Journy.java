@@ -11,9 +11,10 @@ public class Journy implements Serializable{
 	private int journyID;
 	private int distance;
 	private int userID;
+	private boolean isSync;
 
 	public Journy(String nameJourny, String placeJourny,String timeJourny,
-				  String coverImage, int journyID,int distance, int userID) {
+				  String coverImage, int journyID,int distance, int userID, boolean isSync) {
 		super();
 		this.nameJourny = nameJourny;
 		this.placeJourny = placeJourny;
@@ -22,6 +23,7 @@ public class Journy implements Serializable{
 		this.journyID = journyID;
 		this.distance = distance;
 		this.userID = userID;
+		this.isSync = isSync;
 	}
 
 	public String getNameJourny() {
@@ -78,5 +80,13 @@ public class Journy implements Serializable{
 
 	public void setTimeJourny(String timeJourny) {
 		this.timeJourny = timeJourny;
+	}
+
+	public boolean isSync() {
+		return isSync;
+	}
+
+	public void setSync(boolean sync) {
+		isSync = sync;
 	}
 }

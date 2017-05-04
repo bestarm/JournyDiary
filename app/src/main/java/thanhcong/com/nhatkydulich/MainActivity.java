@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +18,10 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.tc.networking.NetworkClient;
+
 import entity.DBManager;
+import entity.DialogNotifyLogin;
 import entity.Journy;
 import fragment.AccountFragment;
 import fragment.MyJournyFragment;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int TAB_SEARCH = 2;
     public static final int TAB_ACCOUNT = 3;
     private static final int REQUEST_CODE_ADD_JOURNY = 1;
+    private static final int NUMBER_OF_TAB = 4;
 
     private MyJournyFragment myJournyFragment;
     private NotificationFragment notificationFragment;
@@ -45,10 +50,15 @@ public class MainActivity extends AppCompatActivity {
     private DBManager dbManager;
     private FloatingActionButton fab;
 
+    private NetworkClient networkClient;
+    private DialogNotifyLogin dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        networkClient = NetworkClient.getInstance(this);
+        networkClient.uploadJourny();
         initViews();
     }
 
@@ -62,7 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
+        dialog = new DialogNotifyLogin(this);
+
         viewPagerTab = (ViewPager)findViewById(R.id.view_pager);
+        viewPagerTab.setOffscreenPageLimit(3);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+
         viewPagerTab.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -84,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
                         fab.hide();
                         break;
                     case TAB_ACCOUNT:
+                        if(!accountFragment.isAccountExit()){
+                            dialog.show();
+                        }
                         txtTitleToolbar.setText("Cá nhân");
                         fab.hide();
                         break;
@@ -98,7 +116,6 @@ public class MainActivity extends AppCompatActivity {
 
         });
         tabLayout = (TabLayout)findViewById(R.id.tab_layout);
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(),tabLayout);
 
         viewPagerTab.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPagerTab);
@@ -126,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private class PagerAdapter extends FragmentPagerAdapter {
-        private TabLayout tabLayout;
+    private class PagerAdapter extends FragmentStatePagerAdapter {
+//        private TabLayout tabLayout;
 
-        public PagerAdapter(FragmentManager fm,TabLayout tabLayout) {
+        public PagerAdapter(FragmentManager fm) {
             super(fm);
-            this.tabLayout = tabLayout;
+//            this.tabLayout = tabLayout;
             initFragments();
         }
 
@@ -154,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (position){
                 case TAB_JOURNY : fragment = myJournyFragment;
+                    fragment.setRetainInstance(true);
                     break;
                 case TAB_NOTIFICATION : fragment = notificationFragment;
                     break;
@@ -169,18 +187,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return NUMBER_OF_TAB;
         }
-    }
-    // Khi them moi hanh trinh xong, method nay se duoc goi
 
+    }
 
     @Override
     public void onBackPressed() {
         if(viewPagerTab.getCurrentItem()==TAB_JOURNY){
-            int backStack = myJournyFragment.getChildFragmentManager().getBackStackEntryCount();
-            if(backStack > 0){
-                myJournyFragment.getChildFragmentManager().popBackStack();
+            if(myJournyFragment.isAddjournyFragmentVisible()){
+                myJournyFragment.showJournyListFragment();
                 fab.show();
             }else{
                 super.onBackPressed();

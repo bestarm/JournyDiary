@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tc.inter.IJournyChangeFragmentListener;
+
 import entity.DBManager;
 import entity.JournyAdapter;
 import thanhcong.com.nhatkydulich.R;
@@ -20,10 +22,13 @@ import thanhcong.com.nhatkydulich.R;
 public class JournyListFragment extends Fragment {
     private RecyclerView recyclerViewJourny;
     private JournyAdapter journyAdapter;
+    private IJournyChangeFragmentListener listener;
+    private Context context;
 
-    public JournyListFragment(Context context,MyJournyFragment myJournyFragment){
+    public JournyListFragment(Context context,IJournyChangeFragmentListener myJournyFragment){
         super();
-        journyAdapter = new JournyAdapter(context,myJournyFragment);
+        this.listener = myJournyFragment;
+        this.context = context;
     }
 
     @Override
@@ -31,6 +36,7 @@ public class JournyListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_journy_list,container,false);
         recyclerViewJourny = (RecyclerView)rootView.findViewById(R.id.recycler_view_journy);
 
+        journyAdapter = new JournyAdapter(context,listener);
 
         recyclerViewJourny.setAdapter(journyAdapter);
         recyclerViewJourny.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -39,13 +45,13 @@ public class JournyListFragment extends Fragment {
         return rootView;
     }
 
-    public void updateJournyList(){
-        journyAdapter.updateListJourny();
-    }
+//    public void updateJournyList(){
+//        journyAdapter.updateListJourny();
+//    }
 
-    public void notifyItemInserted(){
-        journyAdapter.notifyItemInsert();
-    }
+//    public void notifyItemInserted(){
+//        journyAdapter.notifyItemInsert();
+//    }
 
     private void initViews() {
 

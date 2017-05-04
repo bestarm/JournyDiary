@@ -1,42 +1,58 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/fragment_add_journy"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
     android:layout_height="match_parent">
-    <include layout="@layout/toolbar_activity_add_journy"
-        android:id="@+id/toolbar_activity_add_journy"/>
+    <!--<include layout="@layout/toolbar_activity_add_journy"-->
+        <!--android:id="@+id/toolbar_activity_add_journy"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"></LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="25sp"
+        android:text="Tên :"
+        android:layout_height="wrap_content" />
     <EditText
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/shape_background_edt_activity_add_journy"
         android:id="@+id/edt_fragment_add_journy_name"
         android:layout_width="match_parent"
         android:textSize="25sp"
-        android:hint="Tên..."
         android:textStyle="italic"
-        android:layout_height="40dp" />
+        android:layout_height="0dp"
+        android:layout_weight="0.075"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:textSize="25dp"
+        android:text="Địa điểm :"
+        android:layout_height="wrap_content" />
     <EditText
-        android:layout_margin="10dp"
         android:background="@drawable/shape_background_edt_activity_add_journy"
         android:id="@+id/edt_fragment_add_journy_place"
         android:layout_width="match_parent"
         android:textSize="25sp"
         android:textStyle="italic"
-        android:hint="Địa điểm..."
-        android:layout_height="40dp" />
+        android:layout_height="0dp"
+        android:layout_weight="0.075" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Khoảng cách :"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content" />
     <EditText
-        android:layout_margin="10dp"
         android:background="@drawable/shape_background_edt_activity_add_journy"
         android:id="@+id/edt_fragment_add_journy_distance"
         android:layout_width="match_parent"
         android:textSize="25sp"
         android:textStyle="italic"
-        android:hint="Khoảng cách..."
-        android:layout_height="40dp" />
+        android:layout_height="0dp"
+        android:layout_weight="0.075" />
 
     <ImageView
-        android:layout_margin="50dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/iv_fragment_add_journy_cover"
         android:src="@drawable/img_activity_add_journy_temp_cover"
@@ -44,4 +60,16 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         />
+    <Button
+        android:padding="10dp"
+        android:id="@+id/btn_fragment_add_journy_create"
+        android:layout_width="wrap_content"
+        android:background="@color/colorPrimaryDark"
+        android:text="Tạo"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"></LinearLayout>
 </LinearLayout>

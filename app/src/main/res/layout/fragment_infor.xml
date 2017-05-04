@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_fragment_account_avatar"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_notifications_tab" />
+
+        <TextView
+            android:id="@+id/txt_fragment_account_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/civ_fragment_account_avatar"
+            android:text="Nghiem D.T Cong"
+            android:textSize="30sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/civ_fragment_account_avatar"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_corner_item_journy_image"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+        <TextView
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:id="@+id/txt_fragment_account_infor"
+            android:textSize="20sp"
+            android:text="Thông tin cá nhân"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <LinearLayout
+        android:background="@drawable/rounded_corner_item_journy_image"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+        <TextView
+            android:id="@+id/txt_fragment_account_setting"
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:textSize="20sp"
+            android:text="Cài đặt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/txt_fragment_account_rate"
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:textSize="20sp"
+            android:text="Đánh giá"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <TextView
+            android:id="@+id/txt_fragment_account_report"
+            android:layout_margin="10dp"
+            style="@style/textLineBelow"
+            android:gravity="bottom"
+            android:text="Phản hồi"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,12 +1,16 @@
 package entity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.tc.inter.IDiaryActChangeFragmentListener;
@@ -15,23 +19,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import thanhcong.com.nhatkydulich.CustomGalleryActivity;
 import thanhcong.com.nhatkydulich.DiaryActivity;
 import thanhcong.com.nhatkydulich.R;
 
-public class DiaryAdapter extends BaseAdapter{
+public class DiaryAdapter extends BaseAdapter {
+    public static final String KEY_SEND_DIARYID = "KEY_SEND_DIARYID";
+    public static final String KEY_SEND_TITLE_DIARY = "KEY_SEND_TITLE_DIARY";
     List<Diary> diaryList = new ArrayList<Diary>();
     private DBManager dbManager;
     private LayoutInflater inflater;
     private IDiaryActChangeFragmentListener listener;
+    private Context context;
 
-    public DiaryAdapter(Context context,int position){
+    public DiaryAdapter(Context context, int position) {
         dbManager = DBManager.getInstance(context);
         diaryList = dbManager.getListDiary(position);
         inflater = LayoutInflater.from(context);
-        if(context instanceof IDiaryActChangeFragmentListener){
-            listener = (IDiaryActChangeFragmentListener)context;
+        if (context instanceof IDiaryActChangeFragmentListener) {
+            listener = (IDiaryActChangeFragmentListener) context;
         }
+        this.context = context;
     }
+
     @Override
     public int getCount() {
         return diaryList.size();
@@ -52,39 +62,76 @@ public class DiaryAdapter extends BaseAdapter{
     @Override
     public View getView(final int position, View itemView, ViewGroup parent) {
         DiaryHolder diaryHolder;
-        if(itemView==null){
-            itemView = inflater.inflate(R.layout.item_diary,parent,false);
+        if (itemView == null) {
+            itemView = inflater.inflate(R.layout.item_diary, parent, false);
             diaryHolder = new DiaryHolder();
-            diaryHolder.civCoverDiary = (CircleImageView)itemView.findViewById(R.id.circle_image_item_diary);
-            diaryHolder.txtDescription = (TextView)itemView.findViewById(R.id.txt_item_diary_description);
-            diaryHolder.txtTime = (TextView)itemView.findViewById(R.id.txt_item_diary_time);
-            diaryHolder.btnEdit = (Button)itemView.findViewById(R.id.btn_item_diary_edit);
-            diaryHolder.btnEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.showAddDiaryFragment(true,position);// send position
-                }
-            });
-            itemView.setTag(diaryHolder);
-        }else{
-            diaryHolder = (DiaryHolder)itemView.getTag();
+            diaryHolder.civCoverDiary = (CircleImageView) itemView.findViewById(R.id.circle_image_item_diary);
+            diaryHolder.txtDescription = (TextView) itemView.findViewById(R.id.txt_item_diary_description);
+            diaryHolder.txtTime = (TextView) itemView.findViewById(R.id.txt_item_diary_time);
+            diaryHolder.spinnerOption = (Spinner) itemView.findViewById(R.id.spinner_option_item_diary);
+        } else {
+            diaryHolder = (DiaryHolder) itemView.getTag();
         }
+
+        diaryHolder.civCoverDiary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(KEY_SEND_DIARYID, getItem(position).getDiaryID());
+                intent.putExtra(KEY_SEND_TITLE_DIARY, getItem(position).getPlaceDiary());
+                intent.setClass(context, CustomGalleryActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        // setting for spinner option of diary item
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
+                R.array.option_item_diary, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        diaryHolder.spinnerOption.setAdapter(spinnerAdapter);
+        diaryHolder.spinnerOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int posItemSpinner, long id) {
+                switch (posItemSpinner) {
+                    case 1:
+                        listener.showAddDiaryFragment(true, position);// send position, true for edit
+                        break;
+                    case 2:
+                        dbManager.delete("diary", getItem(position).getDiaryID());
+                        if (context instanceof DiaryActivity) {
+                            ((DiaryActivity) context).updateDetailJournyFragment();
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         Diary diary = diaryList.get(getCount() - position - 1);
-        if(diary.getImage() == null){
+        if (diary.getImage() == null) {
             diaryHolder.civCoverDiary.setImageBitmap(BitmapFactory.
                     decodeFile("/storage/emulated/0/DCIM/100ANDRO/none_image.PNG"));
-        }else{
+        } else {
             diaryHolder.civCoverDiary.setImageBitmap(BitmapFactory.decodeFile(diary.getImage()));
         }
         diaryHolder.txtDescription.setText(diary.getDescription());
         diaryHolder.txtTime.setText(diary.getTimeDiary());
+
+        itemView.setTag(diaryHolder);
         return itemView;
     }
-    private class DiaryHolder{
+
+    private class DiaryHolder {
         public CircleImageView civCoverDiary;
         public TextView txtDescription;
         public TextView txtTime;
-        public Button btnEdit;
+        public Spinner spinnerOption;
     }
 
 

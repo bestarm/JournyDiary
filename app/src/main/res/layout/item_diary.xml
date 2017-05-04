@@ -20,12 +20,18 @@
         android:layout_width="match_parent"
         android:background="@drawable/shape_background_edt_activity_add_journy"
         android:layout_height="match_parent">
-        <Button
-            android:background="@drawable/selector_btn_item_diary_edit"
-            android:id="@+id/btn_item_diary_edit"
-            android:layout_width="30dp"
+        <!--<Button-->
+            <!--android:background="@drawable/selector_btn_item_diary_edit"-->
+            <!--android:id="@+id/btn_item_diary_edit"-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_height="30dp" />-->
+        <Spinner
+            android:background="@drawable/ic_item_diary_edit_pencil_unselected"
+            android:id="@+id/spinner_option_item_diary"
             android:layout_alignParentRight="true"
-            android:layout_height="30dp" />
+            android:layout_width="20dp"
+            android:layout_height="20dp"></Spinner>
         <TextView
             android:layout_width="wrap_content"
             android:layout_above="@+id/ivbtn_item_diary_open_expand"
