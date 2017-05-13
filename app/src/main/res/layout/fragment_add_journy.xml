@@ -65,7 +65,7 @@
         android:id="@+id/btn_fragment_add_journy_create"
         android:layout_width="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:text="Tạo"
+        android:text="Sửa"
         android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content" />
     <LinearLayout

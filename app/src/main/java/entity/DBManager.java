@@ -12,9 +12,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -90,6 +88,14 @@ public class DBManager {
                     values.put("Path", columnData[i]);
                     result = mSQLiteDatabase.insert(tableName, null, values);
                 }
+                break;
+            case "location":
+                double lattitude = Double.parseDouble(columnData[0]);
+                double longtitude = Double.parseDouble(columnData[1]);
+                values.put("DiaryID",getTheLastDiaryID());
+                values.put("Lattitude",lattitude);
+                values.put("Longtitude",longtitude);
+                result = mSQLiteDatabase.insert(tableName,null,values);
                 break;
             case "diary":
                 values.put("TimeDiary", columnData[0]);
@@ -256,7 +262,7 @@ public class DBManager {
         return result > -1;
     }
 
-    public boolean delete(String tableName, int ID) {
+    public boolean delete(String tableName, int ID, ArrayList<String> arrayList) {
         int result = -1;
         openDB();
         switch(tableName){
@@ -265,6 +271,12 @@ public class DBManager {
                 break;
             case "journy":
                 result = mSQLiteDatabase.delete(tableName, "JournyId = "+ ID, null);
+                break;
+            case "images":
+                int size = arrayList.size();
+                for(int i = 0; i < size; i++){
+                    result = mSQLiteDatabase.delete(tableName,"DiaryID = "+ID+" and Path = '"+arrayList.get(i)+"'",null);
+                }
                 break;
             default:
                 break;
@@ -281,6 +293,15 @@ public class DBManager {
                 "LIMIT 1",null);
         cursor.moveToFirst();
         return result = cursor.getInt(0);
+    }
+
+    public Location getLocationOfDiary(int diaryID){
+        openDB();
+        Cursor cursor = mSQLiteDatabase.rawQuery("select * from location where DiaryID = "+diaryID,null);
+        cursor.moveToFirst();
+        double lattitude = cursor.getDouble(1);
+        double longtitude = cursor.getDouble(2);
+        return new Location(diaryID,lattitude,longtitude);
     }
 
 }

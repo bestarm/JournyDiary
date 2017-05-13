@@ -73,7 +73,7 @@ public class AddJournyFragment extends Fragment implements View.OnClickListener 
         ivCover.setOnClickListener(this);
         btnCreate.setOnClickListener(this);
 
-        initViews();
+
         return rootView;
     }
 
@@ -85,17 +85,32 @@ public class AddJournyFragment extends Fragment implements View.OnClickListener 
 
             ivCover.setImageBitmap(BitmapFactory.decodeFile(coverImage));
 
-            btnCreate.setText("Sửa");
+
             isEdit = false;
         }else{
             // TO DO
+            edtName.setText("");
+            edtPlace.setText("");
+            edtDistance.setText("");
+            btnCreate.setText("Tạo");
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initViews();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_fragment_add_journy_cover:
+                name = edtName.getText().toString();
+                place = edtPlace.getText().toString();
+                distance = edtDistance.getText().toString();
+                isEdit = true;
+
                 Intent intentPickImage = new Intent(Intent.ACTION_PICK,
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intentPickImage, REQUEST_CODE_LOAD_IMAGE_COVER_JOURNY);

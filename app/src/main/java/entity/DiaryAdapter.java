@@ -3,13 +3,14 @@ package entity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,7 +22,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import thanhcong.com.nhatkydulich.CustomGalleryActivity;
 import thanhcong.com.nhatkydulich.DiaryActivity;
+import thanhcong.com.nhatkydulich.MapDiaryActivity;
 import thanhcong.com.nhatkydulich.R;
+
+import static thanhcong.com.nhatkydulich.MapDiaryActivity.KEY_INTENT_SEND_LATTITUDE;
+import static thanhcong.com.nhatkydulich.MapDiaryActivity.KEY_INTENT_SEND_LONGTITUDE;
 
 public class DiaryAdapter extends BaseAdapter {
     public static final String KEY_SEND_DIARYID = "KEY_SEND_DIARYID";
@@ -69,6 +74,7 @@ public class DiaryAdapter extends BaseAdapter {
             diaryHolder.txtDescription = (TextView) itemView.findViewById(R.id.txt_item_diary_description);
             diaryHolder.txtTime = (TextView) itemView.findViewById(R.id.txt_item_diary_time);
             diaryHolder.spinnerOption = (Spinner) itemView.findViewById(R.id.spinner_option_item_diary);
+            diaryHolder.ivShowMap = (ImageView)itemView.findViewById(R.id.iv_item_diary_show_map);
         } else {
             diaryHolder = (DiaryHolder) itemView.getTag();
         }
@@ -97,7 +103,7 @@ public class DiaryAdapter extends BaseAdapter {
                         listener.showAddDiaryFragment(true, position);// send position, true for edit
                         break;
                     case 2:
-                        dbManager.delete("diary", getItem(position).getDiaryID());
+                        dbManager.delete("diary", getItem(position).getDiaryID(),null);
                         if (context instanceof DiaryActivity) {
                             ((DiaryActivity) context).updateDetailJournyFragment();
                         }
@@ -110,6 +116,25 @@ public class DiaryAdapter extends BaseAdapter {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        // open activity google map
+        diaryHolder.ivShowMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Location location = dbManager.getLocationOfDiary(getItem(position).getDiaryID());
+//                String uri = "geo:"+location.getLattitude()+","+location.getLongtitude()+"?z=18";
+//                Uri gmmIntentUri = Uri.parse(uri);
+//                Intent mapIntent = new Intent(Intent.ACTION_VIEW,gmmIntentUri);
+//                mapIntent.setPackage("com.google.android.apps.map");
+////                intent.setClass(context, MapDiaryActivity.class);
+//                context.startActivity(mapIntent);
+                Intent intent = new Intent();
+                intent.setClass(context, MapDiaryActivity.class);
+                intent.putExtra(KEY_INTENT_SEND_LATTITUDE,location.getLattitude());
+                intent.putExtra(KEY_INTENT_SEND_LONGTITUDE,location.getLongtitude());
+                context.startActivity(intent);
             }
         });
 
@@ -132,6 +157,7 @@ public class DiaryAdapter extends BaseAdapter {
         public TextView txtDescription;
         public TextView txtTime;
         public Spinner spinnerOption;
+        public ImageView ivShowMap;
     }
 
 

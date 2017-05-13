@@ -34,7 +34,7 @@
             android:layout_height="20dp"></Spinner>
         <TextView
             android:layout_width="wrap_content"
-            android:layout_above="@+id/ivbtn_item_diary_open_expand"
+            android:layout_above="@+id/iv_item_diary_show_map"
             android:text="12/02/2016"
             android:textSize="18sp"
             android:layout_alignParentRight="true"
@@ -48,21 +48,21 @@
             android:layout_width="match_parent"
             android:layout_above="@id/txt_item_diary_time"
             android:layout_height="match_parent" />
-        <ImageButton
-            android:id="@+id/ivbtn_item_diary_open_expand"
-            android:src="@drawable/ic_item_diary_open_expand"
-            android:scaleType="center"
+        <ImageView
+            android:id="@+id/iv_item_diary_show_map"
+            android:src="@drawable/btn_item_diary_show_maps"
+            android:scaleType="centerInside"
             android:layout_width="30dp"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_height="30dp" />
-        <ImageButton
+        <ImageView
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:layout_marginRight="50dp"
-            android:id="@+id/ivbtn_item_diary_pencil"
+            android:id="@+id/iv_item_diary_pencil"
             android:src="@drawable/ic_item_diary_pencil_box"
             android:layout_width="30dp"
             android:layout_alignParentBottom="true"
@@ -71,7 +71,7 @@
         <View
             android:layout_width="match_parent"
             android:background="@color/colorPrimaryDark"
-            android:layout_above="@id/ivbtn_item_diary_open_expand"
+            android:layout_above="@id/iv_item_diary_show_map"
             android:layout_marginBottom="5dp"
             android:layout_toLeftOf="@id/txt_item_diary_time"
             android:layout_height="2dp"/>

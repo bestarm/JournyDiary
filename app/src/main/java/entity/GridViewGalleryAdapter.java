@@ -2,7 +2,9 @@ package entity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -29,7 +31,7 @@ public class GridViewGalleryAdapter extends BaseAdapter{
     private Button btnImgSelected;
     private Context context;
     private int selected = 0;
-    private boolean isPickImage,isFixBug = true;
+    private boolean isPickImage;
 
     public GridViewGalleryAdapter(Context context, ArrayList<String> galleryImageUrls, boolean isPickImage){
         this.context = context;
@@ -63,19 +65,21 @@ public class GridViewGalleryAdapter extends BaseAdapter{
             itemView = layoutInflater.inflate(R.layout.item_gridview,parent,false);
             viewHolder.imgGallery = (ImageView)itemView.findViewById(R.id.img_item_gridview_gallery);
             viewHolder.cbxImageSelect = (CheckBox)itemView.findViewById(R.id.cbx_item_gridview);
-            viewHolder.cbxImageSelect.setOnClickListener(mOnClickListener);
+            viewHolder.cbxImageSelect.setOnClickListener(mOnCheckBoxClickListener);
         }else{
             viewHolder = (ViewHolder)itemView.getTag();
         }
         String pathImage = galleryImageUrls.get(position);
         viewHolder.imgGallery.setImageBitmap(BitmapFactory.decodeFile(pathImage));
+        viewHolder.imgGallery.setTag(pathImage);
+        viewHolder.imgGallery.setOnClickListener(mOnImageViewClickListner);
         viewHolder.cbxImageSelect.setTag(position);// set Tag for CheckBox
         viewHolder.cbxImageSelect.setChecked(sparseBooleanArray.get(position));
         itemView.setTag(viewHolder);
         return itemView;
     }
 
-    View.OnClickListener mOnClickListener = new View.OnClickListener(){
+    View.OnClickListener mOnCheckBoxClickListener = new View.OnClickListener(){
 
         @Override
         public void onClick(View v) {
@@ -86,12 +90,28 @@ public class GridViewGalleryAdapter extends BaseAdapter{
             }else{
                 selected--;
             }
-            btnImgSelected.setText("select "+ selected);
+            if(isPickImage){
+                btnImgSelected.setText("select "+ selected);
+            }else{
+                btnImgSelected.setText("delete "+selected);
+            }
             if (selected >0){
                 btnImgSelected.setVisibility(View.VISIBLE);
             }else {
                 btnImgSelected.setVisibility(View.GONE);
             }
+        }
+    };
+
+    View.OnClickListener mOnImageViewClickListner = new View.OnClickListener(){
+        // open activity display image
+        @Override
+        public void onClick(View v) {
+            String pathImage = (String) v.getTag();
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse("file://"+pathImage),"image/*");
+            context.startActivity(intent);
         }
     };
 

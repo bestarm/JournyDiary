@@ -3,6 +3,8 @@ package com.tc.networking;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -30,6 +32,7 @@ public class NetworkClient {
     private Socket socketClient = new Socket();
     private OutputStream out;
     private String url;
+    private Context mContext;
 
     private static NetworkClient instance;
 
@@ -41,6 +44,7 @@ public class NetworkClient {
     }
     protected NetworkClient(Context context){
         this.dbManager = DBManager.getInstance(context);
+        this.mContext = context;
         this.url = "10.0.3.2";
     }
 
@@ -137,7 +141,7 @@ public class NetworkClient {
         }
     }
 
-    public boolean isCoonectToServerStatus(){
+    public boolean isConnectedToServerStatus(){
         try {
             URL mUrl = new URL(url);
             URLConnection connection = mUrl.openConnection();
@@ -149,4 +153,12 @@ public class NetworkClient {
             return false;
         }
     }
+
+    public boolean isNetworkAvailable(){
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager)mContext.getSystemService(mContext.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

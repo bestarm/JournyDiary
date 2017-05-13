@@ -99,13 +99,13 @@ public class MyJournyFragment extends Fragment implements IJournyChangeFragmentL
 
     @Override
     public void showAddJournyFragment(Journy journyForEdit) {
-        FragmentManager fragmentManager = getChildFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.layout_fragment_my_journy, addJournyFragment).commit();
-
         if(journyForEdit != null){
             addJournyFragment.setUpJournyForEdit(journyForEdit);
         }
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.layout_fragment_my_journy, addJournyFragment).commit();
+        fab.hide();
     }
     @Override
     public void updateJournyListFragment(){

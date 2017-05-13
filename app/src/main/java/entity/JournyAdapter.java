@@ -87,7 +87,7 @@ public class JournyAdapter extends RecyclerView.Adapter<JournyAdapter.JournyHold
                             break;
                         case 2:
                             dbManager.delete("journy",journyList.get(
-                                    journyList.size() - getAdapterPosition() -1).getJournyID());
+                                    journyList.size() - getAdapterPosition() -1).getJournyID(),null);
                             listener.updateJournyListFragment();
                             break;
                         default:

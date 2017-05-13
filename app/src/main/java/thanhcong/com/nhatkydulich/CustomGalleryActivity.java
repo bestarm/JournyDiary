@@ -32,6 +32,8 @@ public class CustomGalleryActivity extends AppCompatActivity implements View.OnC
     private Button btnImageSelected;
     private DBManager dbManager;
 
+    private int diaryID;
+
     public CustomGalleryActivity(){
         galleryImageUrls = new ArrayList<String>();
         dbManager = DBManager.getInstance(this);
@@ -49,7 +51,7 @@ public class CustomGalleryActivity extends AppCompatActivity implements View.OnC
         txtTitle = (TextView)findViewById(R.id.txt_customgallery_activity_title);
 
         Intent intent = getIntent();
-        int diaryID = intent.getIntExtra(DiaryAdapter.KEY_SEND_DIARYID,0);
+        diaryID = intent.getIntExtra(DiaryAdapter.KEY_SEND_DIARYID,0);
         String titleDiary = intent.getStringExtra(DiaryAdapter.KEY_SEND_TITLE_DIARY);
         if(diaryID == 0){
             fetchGalleryImages();
@@ -94,10 +96,13 @@ public class CustomGalleryActivity extends AppCompatActivity implements View.OnC
             case R.id.btn_activity_customgallery_img_selected:
                 //fill array with selected images
                 ArrayList<String> imageUrlsSelected = gridViewGalleryAdapter.getImageUrlsSelected();
-
-                Intent intent = new Intent();
-                intent.putExtra(KEY_RETURN_SELECTED_IMAGES,imageUrlsSelected.toString());
-                setResult(RESULT_OK,intent);
+                if(diaryID == 0){
+                    Intent intent = new Intent();
+                    intent.putExtra(KEY_RETURN_SELECTED_IMAGES,imageUrlsSelected.toString());
+                    setResult(RESULT_OK,intent);
+                }else{
+                    dbManager.delete("images",diaryID,imageUrlsSelected);
+                }
                 finish();
                 break;
             default:
